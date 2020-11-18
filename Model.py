@@ -14,7 +14,7 @@ from yellowbrick.target import FeatureCorrelation
 from yellowbrick.regressor import PredictionError
 
 # NOTE: Make sure that the outcome column is labeled 'target' in the data file
-tpot_data = pd.read_csv('C:\\Users\\MASTER\\Documents\\Student Dataset\\student-mat.csv', sep=';')
+tpot_data = pd.read_csv('C:\\Users\\MASTER\\Documents\\Projects\\Student Dataset\\student-mat.csv', sep=';')
 tpot_data['target'] = tpot_data['G3']
 tpot_data.drop(columns='G3', inplace=True)
 features = tpot_data.drop('target', axis=1).select_dtypes([np.number])
