@@ -3,13 +3,13 @@ import logging
 import pickle
 import numpy as np
 from pydantic import BaseModel
-
+'''
 # Server
 import uvicorn
 from fastapi import FastAPI
 
 # Modeling
-import lightgbm
+
 
 app = FastAPI()
 
@@ -55,3 +55,4 @@ def predict(data: Data):
     except:
         my_logger.error("Something went wrong!")
         return {"prediction": "error"}
+'''
