@@ -20,7 +20,7 @@ my_logger.setLevel(logging.DEBUG)
 # logging.basicConfig(level=logging.DEBUG, filename='sample.log')
 
 # Get Pickle path
-path = os.path.dirname(os.path.abspath(__file__)).replace('model', 'app\\data')
+path = os.path.dirname(os.path.abspath(__file__)).replace('app', 'app\\data')
 
 # Initialize files
 model = pickle.load(open(path + '\\model.pickle', 'rb'))
@@ -51,11 +51,6 @@ def predict(data: Data):
         # Extract data in correct order
         data_dict = data.dict()
         to_predict = [data_dict[feature] for feature in features]
-
-        # Apply one-hot encoding
-        encoded_features = list(enc.transform(
-            np.array(to_predict[-2:]).reshape(1, -1))[0])
-        to_predict = np.array(to_predict[:-2] + encoded_features)
 
         # Create and return prediction
         prediction = model.predict(to_predict.reshape(1, -1))
