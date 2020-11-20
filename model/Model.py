@@ -19,6 +19,8 @@ features = data.drop('target', axis=1).select_dtypes([np.number])
 training_features, testing_features, training_target, testing_target = \
             train_test_split(features, data['target'], random_state=25)
 
+# está fudido precisa olhar aqui embaixo
+
 # Instantiate model
 model = make_pipeline(
     make_union(
