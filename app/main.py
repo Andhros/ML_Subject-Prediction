@@ -44,7 +44,7 @@ class Data(BaseModel):
     G1: int
     G2: int
 
-
+# está fudido precisa olhar aqui embaixo
 @app.post("/predict")
 def predict(data: Data):
     try:
