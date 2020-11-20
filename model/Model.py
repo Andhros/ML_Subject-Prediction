@@ -8,20 +8,18 @@ from xgboost import XGBRegressor
 from tpot.export_utils import set_param_recursive
 from sklearn.preprocessing import FunctionTransformer
 from copy import copy
-import plotly.express as px
-from yellowbrick.regressor import ResidualsPlot
-from yellowbrick.target import FeatureCorrelation
-from yellowbrick.regressor import PredictionError
+import pickle
+import os
 
 # NOTE: Make sure that the outcome column is labeled 'target' in the data file
-tpot_data = pd.read_csv('C:\\Users\\MASTER\\Documents\\Projects\\Student Dataset\\student-mat.csv', sep=';')
-tpot_data['target'] = tpot_data['G3']
-tpot_data.drop(columns='G3', inplace=True)
-features = tpot_data.drop('target', axis=1).select_dtypes([np.number])
+data = pd.read_csv('C:\\Users\\MASTER\\Documents\\Projects\\Student Dataset\\model\\student-mat.csv', sep=';')
+data['target'] = data['G3']
+data.drop(columns='G3', inplace=True)
+features = data.drop('target', axis=1).select_dtypes([np.number])
 training_features, testing_features, training_target, testing_target = \
-            train_test_split(features, tpot_data['target'], random_state=25)
+            train_test_split(features, data['target'], random_state=25)
 
-# Average CV score on the training set was: 0.8713511039501057
+# Instantiate model
 model = make_pipeline(
     make_union(
         FunctionTransformer(copy),
@@ -31,29 +29,18 @@ model = make_pipeline(
 )
 # Fix random state for all the steps in exported pipeline
 set_param_recursive(model.steps, 'random_state', 25)
-YB = ResidualsPlot(model, hist=True, qqplot=False)
+model.fit(training_features, training_target)
+results = model.predict(testing_features)
 
-# YB = PredictionError(model)
-YB.fit(training_features, training_target)
-results = YB.predict(testing_features)
+model.predict(
+    data[testing_features.columns]) - data['target']
 
-YB.predict(
-    tpot_data[testing_features.columns]) - tpot_data['target']
+data['predicted'] = model.predict(data[testing_features.columns])
+data['residuals'] = data['target'] - data['predicted']
 
-tpot_data['predicted'] = YB.predict(tpot_data[testing_features.columns])
-tpot_data['residuals'] = tpot_data['target'] - tpot_data['predicted']
+pickle_names = {'features': features, 'model':model}
 
+for i,j in pickle_names.items():
+    pickle_path = os.path.dirname(os.path.abspath(__file__)).replace('model', 'app\\data\\' + i + '.pickle')
 
-YB.show()
-
-linplot = px.line(
-    x=tpot_data.index.values, y=[
-        tpot_data['target'], tpot_data['predicted']]
-)
-linplot.show()
-
-linplot2 = px.line(
-    x=tpot_data.index.values, y=[
-        tpot_data['residuals'], tpot_data['residuals'].rolling(5).mean()]
-)
-linplot2.show()
+    pickle.dump(j, open(pickle_path, 'wb'))
