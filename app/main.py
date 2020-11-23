@@ -59,4 +59,3 @@ def predict(data: Data):
     except:
         my_logger.error("Something went wrong!")
         return {"prediction": "error"}
-'''

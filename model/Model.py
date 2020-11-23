@@ -12,7 +12,7 @@ import pickle
 import os
 
 # NOTE: Make sure that the outcome column is labeled 'target' in the data file
-data = pd.read_csv('C:\\Users\\MASTER\\Documents\\Projects\\Student Dataset\\model\\student-mat.csv', sep=';')
+data = pd.read_csv('D:\\Documentos Mac\\ASistemas\\Projetos DS\\ml_api\\ML_Subject-Prediction\\model\\student-mat.csv', sep=';')
 data['target'] = data['G3']
 data.drop(columns='G3', inplace=True)
 features = data.drop('target', axis=1).select_dtypes([np.number])
