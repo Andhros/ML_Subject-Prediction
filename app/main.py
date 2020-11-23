@@ -3,22 +3,14 @@ import logging
 import pickle
 import numpy as np
 from pydantic import BaseModel
-<<<<<<< HEAD
-'''
-=======
 import os
 
->>>>>>> andhros
 # Server
 import uvicorn
 from fastapi import FastAPI
 
 # Modeling
-<<<<<<< HEAD
-
-=======
 from xgboost import XGBRegressor
->>>>>>> andhros
 
 app = FastAPI()
 
