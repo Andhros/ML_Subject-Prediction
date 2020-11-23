@@ -1,15 +1,24 @@
-# Data Handling
+# Data/Path Handling
 import logging
 import pickle
 import numpy as np
 from pydantic import BaseModel
+<<<<<<< HEAD
 '''
+=======
+import os
+
+>>>>>>> andhros
 # Server
 import uvicorn
 from fastapi import FastAPI
 
 # Modeling
+<<<<<<< HEAD
 
+=======
+from xgboost import XGBRegressor
+>>>>>>> andhros
 
 app = FastAPI()
 
@@ -18,24 +27,32 @@ my_logger = logging.getLogger()
 my_logger.setLevel(logging.DEBUG)
 # logging.basicConfig(level=logging.DEBUG, filename='sample.log')
 
+# Get Pickle path
+path = os.path.dirname(os.path.abspath(__file__)).replace('app', 'app\\data')
+
 # Initialize files
-clf = pickle.load(open('data/model.pickle', 'rb'))
-enc = pickle.load(open('data/encoder.pickle', 'rb'))
-features = pickle.load(open('data/features.pickle', 'rb'))
+model = pickle.load(open(path + '\\model.pickle', 'rb'))
+features = pickle.load(open(path + '\\features.pickle', 'rb'))
 
 
 class Data(BaseModel):
-    satisfaction_level: float
-    last_evaluation: float
-    number_project: float
-    average_montly_hours: float
-    time_spend_company: float
-    Work_accident: float
-    promotion_last_5years: float
-    sales: str
-    salary: str
+    age: int
+    Medu: int
+    Fedu: int
+    traveltime: int
+    studytime: int
+    failures: int
+    famrel: int
+    freetime: int
+    goout: int
+    Dalc: int
+    Walc: int
+    health: int
+    abscences: int
+    G1: int
+    G2: int
 
-
+# está fudido precisa olhar aqui embaixo
 @app.post("/predict")
 def predict(data: Data):
     try:
@@ -43,13 +60,8 @@ def predict(data: Data):
         data_dict = data.dict()
         to_predict = [data_dict[feature] for feature in features]
 
-        # Apply one-hot encoding
-        encoded_features = list(enc.transform(
-            np.array(to_predict[-2:]).reshape(1, -1))[0])
-        to_predict = np.array(to_predict[:-2] + encoded_features)
-
         # Create and return prediction
-        prediction = clf.predict(to_predict.reshape(1, -1))
+        prediction = model.predict(to_predict.reshape(1, -1))
         return {"prediction": int(prediction[0])}
 
     except:
