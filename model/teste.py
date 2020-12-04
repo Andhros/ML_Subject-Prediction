@@ -6,3 +6,4 @@ to_predict = {"age": 21, "Medu": 1, "Fedu": 1, "traveltime": 1, "studytime": 1, 
 to_predict = json.dumps(to_predict)
 url = 'https://127.0.0.1:8000/predict/'
 r = requests.post(url, data=to_predict)
+print(r.text)
