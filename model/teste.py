@@ -25,4 +25,4 @@ print(type(to_predict))
 
 url = 'http://127.0.0.1:8000/predict/'
 r = requests.post(url, data=to_predict)
-print(r.json)
+r.json
