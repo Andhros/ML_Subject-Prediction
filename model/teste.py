@@ -25,8 +25,4 @@ print(type(to_predict))
 
 url = 'http://127.0.0.1:8000/predict/'
 r = requests.post(url, data=to_predict)
-<<<<<<< HEAD
-print(r.text)
-=======
-r.json()
->>>>>>> andhros
+print(r.json)
