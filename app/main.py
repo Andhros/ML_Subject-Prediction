@@ -77,4 +77,4 @@ def predict(data: Data):
 
     # Create and return prediction
     prediction = model.predict(to_predict)
-    return prediction[0]
+    return {"prediction": int(prediction[0])}
