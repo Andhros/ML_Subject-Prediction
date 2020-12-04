@@ -31,7 +31,7 @@ model = make_pipeline(
 )
 # Fix random state for all the steps in exported pipeline
 set_param_recursive(model.steps, 'random_state', 25)
-model = model.fit(training_features, training_target)
+Model = model.fit(training_features, training_target)
 # results = model.predict(testing_features)
 
 # model.predict(
@@ -40,7 +40,7 @@ model = model.fit(training_features, training_target)
 data['predicted'] = model.predict(data[testing_features.columns])
 data['residuals'] = data['target'] - data['predicted']
 
-pickle_names = {'features': features.columns, 'model':model}
+pickle_names = {'features': features.columns, 'model':Model}
 
 for i,j in pickle_names.items():
     pickle_path = os.path.dirname(os.path.abspath(__file__)).replace('model', 'app\\data\\' + i + '.pickle')
