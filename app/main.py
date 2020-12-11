@@ -27,7 +27,7 @@ path = os.path.dirname(os.path.abspath(__file__)).replace('app', 'app\\data')
 # Initialize files
 model = pickle.load(open(path + '\\model.pickle', 'rb'))
 features = pickle.load(open(path + '\\features.pickle', 'rb'))
-
+model_eval_metrics = pickle.load(open(path + '\\metrics.pickle', 'rb'))
 
 class Data(BaseModel):
     age: int
@@ -62,3 +62,7 @@ async def predict(data: Data):
     # Create and return prediction
     prediction = model.predict(to_predict)
     return {"prediction": float(prediction[0])}
+
+@app.get("/metrics/")
+async def model_eval_metrics():
+    return {'model evaluation metrics': model_eval_metrics}
