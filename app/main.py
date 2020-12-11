@@ -47,7 +47,7 @@ class Data(BaseModel):
     G2: int
 
 @app.post("/predict/")
-def predict(data: Data):
+async def predict(data: Data):
     try:
         # Extract data in correct order
         data_dict = jsonable_encoder(data)

@@ -19,28 +19,27 @@ features = data.drop('target', axis=1).select_dtypes([np.number])
 training_features, testing_features, training_target, testing_target = \
             train_test_split(features, data['target'], random_state=25)
 
-# está fudido precisa olhar aqui embaixo
-
 # Instantiate model
 model = make_pipeline(
     make_union(
         FunctionTransformer(copy),
         StackingEstimator(estimator=RidgeCV())
     ),
-    XGBRegressor(learning_rate=0.1, max_depth=2, min_child_weight=9, n_estimators=1000, nthread=1, objective="reg:squarederror", subsample=0.35000000000000003)
+    XGBRegressor(learning_rate=0.1, max_depth=2, min_child_weight=9, n_estimators=1000, nthread=1,
+                 objective="reg:squarederror", subsample=0.35000000000000003)
 )
 # Fix random state for all the steps in exported pipeline
 set_param_recursive(model.steps, 'random_state', 25)
 Model = model.fit(training_features, training_target)
+score = model.score(training_features, training_target)
 # results = model.predict(testing_features)
-
 # model.predict(
 #     data[testing_features.columns]) - data['target']
 
-data['predicted'] = model.predict(data[testing_features.columns])
-data['residuals'] = data['target'] - data['predicted']
+# data['predicted'] = model.predict(data[testing_features.columns])
+# data['residuals'] = data['target'] - data['predicted']
 
-pickle_names = {'features': features.columns, 'model':Model}
+pickle_names = {'features': features.columns, 'model':Model, 'score':score}
 
 for i,j in pickle_names.items():
     pickle_path = os.path.dirname(os.path.abspath(__file__)).replace('model', 'app\\data\\' + i + '.pickle')
