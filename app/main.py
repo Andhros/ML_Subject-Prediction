@@ -1,15 +1,17 @@
 # Data/Path Handling
 import logging
 import pandas as pd
-import pickle
 import numpy as np
-from pydantic import BaseModel
+import pickle
+import json
 import os
+from pydantic import BaseModel
 
 # Server
 import uvicorn
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 # Modeling
 from xgboost import XGBRegressor
@@ -64,5 +66,7 @@ async def predict(data: Data):
     return {"prediction": float(prediction[0])}
 
 @app.get("/metrics/")
-async def model_eval_metrics():
-    return {'model evaluation metrics': model_eval_metrics}
+async def metrics():
+    return {"model_metrics": model_eval_metrics}
+
+

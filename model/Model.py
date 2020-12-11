@@ -35,8 +35,10 @@ model = make_pipeline(
 # Fix random state for all the steps in exported pipeline
 set_param_recursive(model.steps, 'random_state', 25)
 Model = model.fit(training_features, training_target)
+
+# Building Metrics
 testing_pred = Model.predict(testing_features)
-score = model.score(training_features, training_target)
+score = model.score(testing_features, testing_target)
 mse = MSE(testing_target, testing_pred)
 rmse = mse**(1/2)
 max_error = max_error(testing_target, testing_pred)
