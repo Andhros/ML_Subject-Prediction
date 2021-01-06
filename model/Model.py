@@ -22,6 +22,7 @@ data.drop(columns='G3', inplace=True)
 features = data.drop('target', axis=1).select_dtypes([np.number])
 training_features, testing_features, training_target, testing_target = \
             train_test_split(features, data['target'], random_state=25)
+features = features.dtypes.to_dict()
 
 # Instantiate model
 model = make_pipeline(
@@ -50,8 +51,8 @@ eval_metrics_dict = {'r2':score, 'mse': mse, 'rmse': rmse, 'max_error': max_erro
 # data['predicted'] = model.predict(data[testing_features.columns])
 # data['residuals'] = data['target'] - data['predicted']
 
-pickle_names = {'features': features.columns, 
-                'model': Model, 
+pickle_names = {'features': features, 
+                'model': Model,
                 'metrics': eval_metrics_dict}
 
 for i,j in pickle_names.items():

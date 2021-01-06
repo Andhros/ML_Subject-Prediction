@@ -5,7 +5,7 @@ import numpy as np
 import pickle
 import json
 import os
-from pydantic import BaseModel
+from pydantic import BaseModel, create_model
 
 # Server
 import uvicorn
@@ -47,6 +47,8 @@ class Data(BaseModel):
     abscences: int
     G1: int
     G2: int
+    
+# create_model('Model', **features)
 
 @app.post("/predict/")
 async def predict(data: Data):
@@ -68,5 +70,3 @@ async def predict(data: Data):
 @app.get("/metrics/")
 async def metrics():
     return {"model_metrics": model_eval_metrics}
-
-
