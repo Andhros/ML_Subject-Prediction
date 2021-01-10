@@ -51,10 +51,12 @@ eval_metrics_dict = {'r2':score, 'mse': mse, 'rmse': rmse, 'max_error': max_erro
 # data['predicted'] = model.predict(data[testing_features.columns])
 # data['residuals'] = data['target'] - data['predicted']
 
+# creates a dictionary to implement the pickle files
 pickle_names = {'features': features, 
                 'model': Model,
                 'metrics': eval_metrics_dict}
 
+# saves the pickle files
 for i,j in pickle_names.items():
     pickle_path = os.path.dirname(os.path.abspath(__file__)).replace('model', 'app\\data\\' + i + '.pickle')
 

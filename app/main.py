@@ -31,6 +31,7 @@ model = pickle.load(open(path + '\\model.pickle', 'rb'))
 features = pickle.load(open(path + '\\features.pickle', 'rb'))
 model_eval_metrics = pickle.load(open(path + '\\metrics.pickle', 'rb'))
 
+# Instatiates the class (BaseModel)
 class Data(BaseModel):
     age: int
     Medu: int
@@ -48,8 +49,8 @@ class Data(BaseModel):
     G1: int
     G2: int
     
-# create_model('Model', **features)
 
+# post to get predictions
 @app.post("/predict/")
 async def predict(data: Data):
     try:
@@ -67,6 +68,7 @@ async def predict(data: Data):
     prediction = model.predict(to_predict)
     return {"prediction": float(prediction[0])}
 
+# get to retrieve the model's metrics
 @app.get("/metrics/")
 async def metrics():
     return {"model_metrics": model_eval_metrics}
