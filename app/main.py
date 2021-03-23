@@ -13,9 +13,6 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-# Modeling
-from xgboost import XGBRegressor
-
 app = FastAPI()
 
 # Initialize logging
@@ -24,12 +21,12 @@ my_logger.setLevel(logging.DEBUG)
 # logging.basicConfig(level=logging.DEBUG, filename='sample.log')
 
 # Get Pickle path
-path = os.path.dirname(os.path.abspath(__file__)).replace('app', 'app\\data')
+path = os.path.dirname(os.path.abspath(__file__)).replace('app', 'app/data')
 
 # Initialize files
-model = pickle.load(open(path + '\\model.pickle', 'rb'))
-features = pickle.load(open(path + '\\features.pickle', 'rb'))
-model_eval_metrics = pickle.load(open(path + '\\metrics.pickle', 'rb'))
+model = pickle.load(open(path + '/model.pickle', 'rb'))
+features = pickle.load(open(path + '/features.pickle', 'rb'))
+model_eval_metrics = pickle.load(open(path + '/metrics.pickle', 'rb'))
 
 # Instatiates the class (BaseModel)
 class Data(BaseModel):
